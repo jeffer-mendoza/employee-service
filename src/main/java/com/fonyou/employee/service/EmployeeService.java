@@ -1,5 +1,6 @@
 package com.fonyou.employee.service;
 
+import com.fonyou.employee.exception.ResourceNotFoundException;
 import com.fonyou.employee.model.employee.Employee;
 import com.fonyou.employee.model.employee.dto.EmployeeDTO;
 import com.fonyou.employee.model.employee.dto.EmployeeMapper;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,8 +30,12 @@ public class EmployeeService implements IEmployeeService{
     }
 
     @Override
-    public EmployeeDTO findById(Long id) {
-        return EmployeeMapper.toEmployeeDto(repository.findById(id).get());
+    public EmployeeDTO findById(Long id) throws ResourceNotFoundException {
+        final Optional optional = repository.findById(id);
+        if(!optional.isPresent()) {
+            throw new ResourceNotFoundException();
+        }
+        return EmployeeMapper.toEmployeeDto((Employee)optional.get());
     }
 
     @Override
