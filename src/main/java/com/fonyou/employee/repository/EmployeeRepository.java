@@ -1,6 +1,14 @@
 package com.fonyou.employee.repository;
 
+import com.fonyou.employee.model.employee.Employee;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface EmployeeRepository extends CrudRepository<EmployeeRepository, Long> {
+import java.util.List;
+
+@Repository
+public interface EmployeeRepository extends CrudRepository<Employee, Long> {
+
+    List<Employee> findAll();
+
 }
