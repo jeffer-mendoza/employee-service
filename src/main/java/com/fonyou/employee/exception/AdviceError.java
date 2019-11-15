@@ -14,7 +14,7 @@ public class AdviceError {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler({SQLException.class, NullPointerException.class})
+    @ExceptionHandler({InternalErrorException.class, SQLException.class, NullPointerException.class})
     public void handle() {
     }
 }

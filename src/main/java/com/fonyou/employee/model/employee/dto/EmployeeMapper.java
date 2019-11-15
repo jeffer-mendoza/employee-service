@@ -6,6 +6,7 @@ public class EmployeeMapper {
 
     public static EmployeeDTO toEmployeeDto(final Employee employee){
         return EmployeeDTO.builder()
+            .id(employee.getId())
             .firstname(employee.getFirstname())
             .lastname(employee.getLastname())
             .dateStart(employee.getDateStart())
@@ -16,6 +17,7 @@ public class EmployeeMapper {
 
     public static Employee toEmployee(final EmployeeDTO employeeDTO) {
         return Employee.builder()
+            .id(employeeDTO.getId())
             .firstname(employeeDTO.getFirstname())
             .lastname(employeeDTO.getLastname())
             .dateStart(employeeDTO.getDateStart())

@@ -1,5 +1,7 @@
 package com.fonyou.employee.controller;
 
+import com.fonyou.employee.dto.PayEmployeeDTO;
+import com.fonyou.employee.exception.InternalErrorException;
 import com.fonyou.employee.exception.ResourceNotFoundException;
 import com.fonyou.employee.model.employee.dto.EmployeeDTO;
 import com.fonyou.employee.service.IEmployeeService;
@@ -33,11 +35,11 @@ public class EmployeeController {
         return service.create(employeeDTO);
     }
 
-    @PutMapping
+    @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable("id") Long id, @Valid @RequestBody EmployeeDTO employeDTO)
             throws ResourceNotFoundException {
-        RestPreconditions.checkFound(service.findById(id));
+        service.findById(id);
         service.update(employeDTO);
     }
 
@@ -45,13 +47,14 @@ public class EmployeeController {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        RestPreconditions.checkFound(service.findById(id));
+        service.findById(id);
         service.delete(id);
     }
 
-    @PostMapping
+    @PostMapping(path = "/pay")
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeDTO pay(@Valid @RequestBody EmployeeDTO employeeDTO) {
-        return service.create(employeeDTO);
+    public float pay(@Valid @RequestBody PayEmployeeDTO employeeDTO)
+            throws InternalErrorException, ResourceNotFoundException {
+        return service.pay(employeeDTO);
     }
 }

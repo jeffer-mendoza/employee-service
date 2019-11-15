@@ -1,5 +1,7 @@
 package com.fonyou.employee.service;
 
+import com.fonyou.employee.dto.PayEmployeeDTO;
+import com.fonyou.employee.exception.InternalErrorException;
 import com.fonyou.employee.exception.ResourceNotFoundException;
 import com.fonyou.employee.model.employee.Employee;
 import com.fonyou.employee.model.employee.dto.EmployeeDTO;
@@ -8,6 +10,7 @@ import com.fonyou.employee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -51,5 +54,17 @@ public class EmployeeService implements IEmployeeService{
     @Override
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public float pay(PayEmployeeDTO payEmployeeDTO)
+            throws ResourceNotFoundException, InternalErrorException {
+        Employee employee = EmployeeMapper.toEmployee(findById(payEmployeeDTO.getId()));
+
+        try {
+            return employee.calculateSalary(payEmployeeDTO.getMonth(), payEmployeeDTO.getYear());
+        } catch (ParseException e) {
+           throw new InternalErrorException();
+        }
     }
 }
