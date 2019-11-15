@@ -57,14 +57,8 @@ public class EmployeeService implements IEmployeeService{
     }
 
     @Override
-    public float pay(PayEmployeeDTO payEmployeeDTO)
-            throws ResourceNotFoundException, InternalErrorException {
+    public float pay(PayEmployeeDTO payEmployeeDTO) throws ResourceNotFoundException {
         Employee employee = EmployeeMapper.toEmployee(findById(payEmployeeDTO.getId()));
-
-        try {
-            return employee.calculateSalary(payEmployeeDTO.getMonth(), payEmployeeDTO.getYear());
-        } catch (ParseException e) {
-           throw new InternalErrorException();
-        }
+        return employee.calculateSalary(payEmployeeDTO.getMonth(), payEmployeeDTO.getYear());
     }
 }

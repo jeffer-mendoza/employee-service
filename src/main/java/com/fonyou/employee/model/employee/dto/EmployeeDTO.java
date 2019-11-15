@@ -4,16 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-
 import javax.validation.constraints.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder()
-public class EmployeeDTO {
+public class EmployeeDTO implements Serializable {
+
+    private static final long serialVersionUID = -306571471783579597L;
 
     private Long id;
 
@@ -27,10 +29,10 @@ public class EmployeeDTO {
 
     @NotNull
     @PastOrPresent(message="Date start value cannot is in the future")
-    private Date dateStart;
+    private LocalDate dateStart;
 
     @PastOrPresent(message="Date end value cannot is in the future")
-    private Date dateEnd;
+    private LocalDate dateEnd;
 
     @Positive(message="Base Salary cannot be minor or equal than 0")
     private float baseSalary;
